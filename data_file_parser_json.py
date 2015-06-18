@@ -12,6 +12,11 @@ def curl_file_smap(filename):
 
 def parse(file):
     op_fname = "smap_" + os.path.basename(file).split(".")[0] + ".json"
+    if os.path.isfile(op_fname):
+        print "skipping",op_fname
+        return 
+    else:
+	print "processing",op_fname
     with open(file) as f, open(op_fname , "w+") as op:
         j = 0
         data = {}
