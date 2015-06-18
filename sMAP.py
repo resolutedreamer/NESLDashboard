@@ -1,109 +1,114 @@
-# Author: Anthony Nguyen, UCLA, Jeremy Haugen, UCLA
+# Author: Anthony Nguyen, UCLA
 # Created on: May 28, 2015
 #
 # Copyright notice in LICENSE file 
-#
 
-from pkg.utils.debug import debug_mesg
 import sys
 import os
-import BaseService
 import calendar
 import iso8601
 import time
 import logging
 import json
 import requests
+import uuid
+import md5
+
+print "importingfromFiles"
+import BaseService	
 import uuid_gen
+from pkg.utils.debug import debug_mesg
 from datetime import datetime
+
+def get_uuid(string):
+    md5sum = md5.new(string)
+    uuid_str = md5sum.hexdigest()
+    new_uuid = uuid.UUID(uuid_str)
+    return new_uuid
 
 class sMAP(BaseService.Service):
     def __init__(self, id, params):
-        # These options correspond to the config file
-        super(sMAP,self).__init__("sMAP", id, params)
-        debug_mesg("Created sMAP Output Service with id: " + id)
-        self.channel_data = {}
+        # Input: id and params refer to the the "id" and "params" fields
+	# of the sMAP service under the jsonp config file
+        
+	# This super refers to superclassing, but I'm honestly not sure what it does
+	super(sMAP,self).__init__("sMAP", id, params)
+        
+        # self.channel_data holds the sMAP path names and uuids corresponding to sensor
+	# channels devices as they are added. some devices have more sensors than others
+	self.channel_data = {}
+		
+	debug_mesg("Created sMAP Output Service with id: " + id)
+        
    
     def process_sample(self, sample, params, device_id, queue_id):
-        debug_mesg("Received sample from device with ID: ")
+        # Input:
+        # sample contains the actual value
+        # params contains the contents of the "params" fields of the device within the jsonp config file
+        # device_id contains 3 entries,
+        # queue_id contains... not sure
         device_name = device_id[1]
-        channel_details = device_id[2]
-        id_partial = "/ManisHouse/" + device_name + "/"
-        debug_mesg("This device has %s datastreams" % len(channel_details) )
-        
-        # get a list of the channels
-        #Check if these channels are already inside of the dictionary containing all channels and uuids
-        #if these are not in there yet, add them
-        
-        for i, (c, m, ct) in enumerate(channel_details):
-            channel_id_full = id_partial + c[0]
-            #debug_mesg(channel_id_full)
-            channel_uuid = uuid_gen.get_uuid(channel_id_full)
-            
-            if channel_id_full not in self.channel_data:
-                # we must add the initial data stream to smap
-                units = c[1]
-                self.add_stream(channel_id_full, channel_uuid, units)
-                self.channel_data[channel_id_full] = []
-        
+        channel_id_partial = "/ManisHouse/" + device_name + "/"
+        #debug_mesg("Received sample from device with ID: ")
+        #debug_mesg(channel_id_partial)
+		
         #sample can be a tuple or a list or a dict
         if type(sample)==tuple or type(sample)==list:
-            self.process_sample_list(id_partial, sample,channel_details)
+            channel_listing = device_id[2]
+            #debug_mesg("This device has %s datastreams" % len(channel_listing) )
+            self.process_sample_list(channel_id_partial, sample, channel_listing)
             
         #if we have a dict, slightly different
         elif type(sample)==dict:
-            self.process_sample_dict(id_partial, sample, queue_id)
-            
-    def process_sample_list(self, id_partial, sample, channel_details):
+            self.process_sample_dict(channel_id_partial, sample)
+		    
+    def process_sample_list(self, channel_id_partial, sample, channel_listing):
         #debug_mesg("This sMAP sample is a tuple or a list")
         #debug_mesg(sample)
             
         # time stamp is first field of the tuple or list, same for all channels
         time_stamp = int(sample[0])*1000
+		
+	# get a list of the channels
+        # Check if these channels are already inside of the dictionary containing all channels and uuids
+        # if these are not in there yet, add them
+        	
+        for i, (channel_info, m, channel_transform) in enumerate(channel_listing):
+            channel_id_full = channel_id_partial + channel_info[0]
+            #debug_mesg(channel_id_full)
             
-        # each channel
-        for i, (c, m, ct) in enumerate(channel_details):
+            if channel_id_full not in self.channel_data:
+                # we must add the initial data stream to smap
+                channel_uuid = uuid_gen.get_uuid(channel_id_full)
+                units = channel_info[1]
+                self.add_stream(channel_id_full, channel_uuid, units)
+                self.channel_data[channel_id_full] = []
             if not m:
                 continue
             if sample[i+1]==None:
                 continue
-            if ct != None:
-                try:# This line sets a scaling factor, if CT isn't none
-                    data_value = ct[0]*float(sample[i+1])+ct[1]
-                except:# CT will be none most of the time, so no scaling most of the time, so we just want x, the actual sample
+            if channel_transform != None:
+                try:# This line sets a scaling factor, if channel_transform isn't none
+                    data_value = channel_transform[0] * float(sample[i+1]) + channel_transform[1]
+                except:# channel_transform will be none most of the time, so no scaling most of the time, so we just want x, the actual sample
                     data_value = sample[i+1]
             else:
                 data_value = sample[i+1]                    
-            channel_id_full = id_partial + c[0]
-            new_datapoint =     [time_stamp, data_value]
-            self.buffer_try_submit(channel_id_full, new_datapoint)
-            #self.queue_data(channel_id_full, new_datapoint)
-                
-    def process_sample_dict(self, channel_id_full, sample, queue_id):
-        #debug_mesg("This sMAP sample is a dict")
-        #debug_mesg(sample)
             
-        feed = sample['feed']
+            new_datapoint = [time_stamp, data_value]
+            self.buffer_try_submit(channel_id_full, new_datapoint)
+                
+    def process_sample_dict(self, channel_id_partial, sample):
+        debug_mesg("This sMAP sample is a dict")
+        debug_mesg(sample)
+        logging.error(channel_id_partial)
+        logging.error(sample)        
+		
         for data_stream in sample['datastreams']:
             for data_value in data_stream['datapoints']:
-                time_stamp = int(    calendar.timegm(iso8601.parse_date(data_value['at']).utctimetuple())  ) * 1000                                 
-                  
-                #this is the output_string
-                output_string = "%s[%s],%s,%s\n"%(feed, data_stream['id'], data_value['value'], self.units_cache.get((queue_id, feed, data_stream['id']), "unknown"))
-                  
+                time_stamp = int(    calendar.timegm(iso8601.parse_date(data_value['at']).utctimetuple())  ) * 1000                  
                 new_datapoint = [time_stamp, data_value['value']]
-                self.buffer_try_submit(channel_id_full, new_datapoint)
-                #self.queue_data(channel_id_full, new_datapoint)
-
-
-    def queue_data(self, channel_id_full, new_datapoint):
-        #the path and uuid indicate which queue to put the point into        
-        path = channel_id_full
-        uuid = self.uuid_from_path(path)
-
-        #add the proper queue        
-        #data_queue[uuid].add(new_datapoint)
-
+                self.buffer_try_submit(channel_id_partial, new_datapoint)
             
     def build_json(self, prepared_data):            
         path = prepared_data[0]
@@ -115,22 +120,18 @@ class sMAP(BaseService.Service):
         data[path]["Readings"] = sample_values_array
         data[path]["uuid"] = str(uuid)
         return data
-        
-    def uuid_from_path(self, path, params):
-        core_path = path[12:]
-        debug_mesg(core_path)
-        uuid = params[core_path]
-        return uuid
-                                                
+		
     def add_sample(self, prepared_data):
         # this function takes in a sMAP path (path), a time (time_stamp), and a value (sample_value), and then sends it using REST POST        
         url = "http://128.97.93.240:8079/add/mHRzALUD7OtL9TFi0MbJDm6mKWdA2DJp5wJT"
         js_data = json.dumps(self.build_json(prepared_data))
         headers = {"Content-type": "application/json", "Accept": "text/plain"}
-        debug_mesg(str(js_data))
         r = requests.post(url, data = js_data, headers=headers)
         if r.status_code != 200:
+            debug_mesg(str(js_data))
             debug_mesg("Error adding sample:" + str(r.status_code) + r.text)
+            logging.error(str(js_data))
+            logging.error("Error adding sample:" + str(r.status_code) + r.text)
             exit(1)
     
     def buffer_try_submit(self, channel_id_full, datapoint):
@@ -172,5 +173,5 @@ class sMAP(BaseService.Service):
         headers = {"Content-type": "application/json", "Accept": "text/plain"}
         r = requests.post(url, data=json.dumps(data), headers=headers)
         if r.status_code != 200:
-            debug_mesg("Error adding stream:" + str(r.status_code) + r.text)
+            logging.error("Error adding stream:" + str(r.status_code) + r.text)
             exit(1)
