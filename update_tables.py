@@ -1,5 +1,6 @@
 from smap.archiver.client import SmapClient
 from smap.contrib import dtutil
+import numpy as np
 my_smap_client = SmapClient("http://localhost:8079")
 
 def get_stats(uuid, period):
@@ -50,9 +51,12 @@ def get_stats(uuid, period):
 		
 def maxvalue(data):
 	# get the max value of data
+	return max(data)
 
 def avgvalue(data):
 	# get the avg value of data
+	return np.mean(data)
 
 def minvalue(data):
 	# get the min value of data
+	return min(data)
