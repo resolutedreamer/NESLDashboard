@@ -1,0 +1,2 @@
+/usr/local/lib/python2.7/dist-packages/smap
+/home/ray/sources/smap-data-read-only/python/conf
