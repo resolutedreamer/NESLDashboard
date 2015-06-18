@@ -1,0 +1,466 @@
+{
+	"services": [
+		{
+		    "enable": "%%ENABLE_XIVELY",
+			"type": "Xively",
+			"id": "Xively/Mani",
+			"params": {
+				"api_key": "%%APIKEY_XI",
+				"upload_interval":{
+					"131445":12, "69814":12, "131439":12, ".*":10
+				},
+				"upload_interval_burst":{
+					"131445":6, "69814":6, "131439":6, ".*":6
+				},
+				"upload_buffer_size":500,
+				"max_datapoints_per_write":490, 
+				"dropped_datapoint_save": false,
+				"dropped_datapoint_folder":"./sam_drops"
+			}
+		},
+		{
+			"enable": "%%ENABLE_SENSORACT",
+			"type": "SensorAct",
+			"id": "SensorAct/Home",
+			"params": {
+				"host": "128.97.93.51",
+				"port": "9000",
+				"api_key": "%%APIKEY_SA"
+			}
+		},
+		{
+			"enable": "%%ENABLE_STDOUT",
+			"type": "Stdout",
+			"id": "Stdout"
+		},
+		{
+			"enable": "%%ENABLE_FILEIO",
+			"type": "File",
+			"id": "File/Home",
+			"params": {
+				"file": "./sam_out/home3747",
+				"prefix": "home3747"
+			}
+		},
+		{
+			"enable": "True",
+			"type": "sMAP",
+			"id": "sMAP/Home",
+			"params": {
+			}
+		}
+	],
+	
+	"devices": [
+		{
+		    "enable": "%%ENABLE_SHENITECH",
+			"type": "Shenitech",
+			"id": "ShenitechMainMeter",
+			"params": {
+				"host": "10.0.0.180:10001",
+				"sample_interval": "1",
+				"sensor_names_map":{"Flow":"FlowRate"}
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "69814",
+						"datastream_map": {
+							"FlowRate":"house_water_flow",
+							"XXX.*": "\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout",
+					"params": {
+					}
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_VERA3",
+			"type": "Vera",
+			"id": "Vera3@Home",
+			"params": {
+				"host": "vera3.mhome",
+				"sample_interval": 2,
+				"sensors": [
+					{"type":"devices", "id":19, "field":"tripped", "unit":"bool", "name":"front_door_status"},
+					{"type":"devices", "id":19, "field":"batterylevel", "unit":"%", "name":"front_door_battery_level"},
+					{"type":"devices", "id":79, "field":"tripped", "unit":"bool", "name":"garage_door_status"}
+				],
+				"actuators": []
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout",
+					"params": {
+					}
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_RARITAN_STUDY",
+			"type": "Raritan",
+			"id": "Raritan_Study",
+			"params": {
+				"host": "10.0.0.235:161",
+				"sample_interval": "3",
+				"username":"admin",
+				"password":"home3747r",
+				"sensor_names_map":{},
+				"sensors":["1","2","3","4","5","6","7","8"]
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131445",
+						"datastream_map": {
+							"PowerFactor\\[(.*)\\]":"PowerFactor_Study_\\g<1>", 
+							"RealPower\\[(.*)\\]":"RealPower_Study_\\g<1>",
+							"ApparentPower\\[(.*)\\]":"ApparentPower_Study_\\g<1>",
+							"Current\\[(.*)\\]":"Current_Study_\\g<1>",
+							"Voltage\\[(.*)\\]":"Voltage_Study_\\g<1>",
+							"XXX.*": "\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout",
+					"params": {
+						"channel_mask": "%%[1 for x in range(40)]",
+						"channel_transform": "%%[[1,0] for x in range(40)]" 
+					}
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_RARITAN_TV",
+			"type": "Raritan",
+			"id": "Raritan_TV",
+			"params": {
+				"host": "10.0.0.234:161",
+				"sample_interval": "3",
+				"username":"admin",
+				"password":"home3747r",
+				"sensor_names_map":{},
+				"sensors":["1","2","3","4","5","6","7","8"]
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131445",
+						"datastream_map": {
+							"PowerFactor\\[(.*)\\]":"PowerFactor_TV_\\g<1>", 
+							"RealPower\\[(.*)\\]":"RealPower_TV_\\g<1>",
+							"ApparentPower\\[(.*)\\]":"ApparentPower_TV_\\g<1>",
+							"Current\\[(.*)\\]":"Current_TV_\\g<1>",
+							"Voltage\\[(.*)\\]":"Voltage_TV_\\g<1>",
+							"XXX.*": "\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout"
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_EGAUGE_MAINPANEL_1",
+			"type": "eGaugeHTTP",
+			"id": "eGauge_MainPanel_1",
+			"params": {
+				"host": "egauge1.mhome:80",
+				"sample_interval": "1",
+				"sensors": [
+					{"id":"V1", "unit":"V"},
+					{"id":"V2", "unit":"V"},
+					{"id":"F1", "unit":"Hz"},
+					{"id":"F2", "unit":"Hz"},
+					{"id":"P1|", "unit":"W", "name":"P1"},
+					{"id":"P2|", "unit":"W", "name":"P2"},
+					{"id":"P3|", "unit":"W", "name":"P3"},
+					{"id":"P4|", "unit":"W", "name":"P4"},
+					{"id":"P5|", "unit":"W", "name":"P5"},
+					{"id":"P6|", "unit":"W", "name":"P6"},
+					{"id":"P7|", "unit":"W", "name":"P7"},
+					{"id":"P8|", "unit":"W", "name":"P8"},
+					{"id":"Psub1|", "unit":"W", "name":"Psub1_real"},
+					{"id":"APsub1*", "unit":"VA", "name":"Psub1_apparent"},
+					{"id":"Psub2|", "unit":"W", "name":"Psub2_real"},
+					{"id":"APsub2*", "unit":"VA", "name":"Psub2_apparent"}
+				]
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131439",
+						"datastream_map": {
+							".*": "eGauge1_\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout"
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_EGAUGE_MAINPANEL_2",
+			"type": "eGaugeHTTP",
+			"id": "eGauge_MainPanel_2",
+			"params": {
+				"host": "egauge2.mhome:80",
+				"sample_interval": "1",
+				"sensors": [
+					{"id":"V1", "unit":"V"},
+					{"id":"V2", "unit":"V"},
+					{"id":"P1|", "unit":"W", "name":"P1"},
+					{"id":"P2|", "unit":"W", "name":"P2"},
+					{"id":"P3|", "unit":"W", "name":"P3"},
+					{"id":"P4|", "unit":"W", "name":"P4"},
+					{"id":"P5|", "unit":"W", "name":"P5"},
+					{"id":"P6|", "unit":"W", "name":"P6"},
+					{"id":"P7|", "unit":"W", "name":"P7"},
+					{"id":"Pred|", "unit":"W", "name":"Phouse1_real"},
+					{"id":"APred*", "unit":"VA", "name":"Phouse1_apparent"},
+					{"id":"Pblack|", "unit":"W", "name":"Phouse2_real"},
+					{"id":"APblack*", "unit":"VA", "name":"Phouse2_apparent"},
+					{"id":"Phouse|", "unit":"W",  "name":"Phouse_real"},
+					{"id":"APhouse*", "unit":"VA", "name":"Phouse_apparent"}
+				]
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131439",
+						"datastream_map": {
+							".*": "eGauge2_\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout"
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_TED5K_MAINPANEL",
+			"type": "TED5000",
+			"id": "TED5000_MainPanel",
+			"params": {
+				"host": "ted5000-main.mhome:80",
+				"sample_interval": 1,
+				"sensors": ["house"],
+				"sensor_names_map":{}
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131439",
+						"datastream_map": {
+							"RealPower\\[(.*)\\]": "RealPower_\\g<1>",
+							"ApparentPower\\[(.*)\\]": "ApparentPower_\\g<1>",
+							"Voltage\\[(.*)\\]": "Voltage_\\g<1>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout"
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_TED5K_SUBPANEL",
+			"type": "TED5000",
+			"id": "TED5000_SubPanel",
+			"params": {
+				"host": "ted5000-sub.mhome:80",
+				"sample_interval": 1,
+				"sensors": ["subpanel", "oven", "pool"],
+				"sensor_names_map":{}
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "131439",
+						"datastream_map": {
+							"RealPower\\[(.*)\\]": "RealPower_\\g<1>",
+							"ApparentPower\\[(.*)\\]": "ApparentPower_\\g<1>",
+							"Voltage\\[(.*)\\]": "Voltage_\\g<1>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_FILEIO",
+					"id": "File/Home",
+					"params": {
+						"write_interval": "10"
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout"
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		},
+		{
+			"enable": "%%ENABLE_PUSHDEVICE_SERVER",
+			"type": "PushDevice",
+			"id": "PushDeviceServer",
+			"params": {
+				"port": 8100,
+				"apikey": "abcd",
+				"mode": "cherrypy",
+				"drop_unknown_sensors":false,
+				"sensors": [
+					{"device":"12", "datastream":"front_door", "unit":"bool", "device_name":"vera", "datastream_name":"front_door_event"},
+					{"device":"12", "datastream":"garage_door", "unit":"bool", "device_name":"vera", "datastream_name":"garage_door_event"},
+					{"device":"12", "datastream":"key", "unit":"str", "device_name":"vera", "datastream_name":"key"}
+				]
+			},
+			"services": [
+				{
+					"enable": "%%ENABLE_XIVELY",
+					"id": "Xively/Mani",
+					"params": {
+						"feed": "1578024686",
+						"datastream_map": {
+							"vera\\[front_door_event\\]": "channel1",
+							"vera\\[garage_door_event\\]": "channel2",
+							"vera\\[key\\]": "channel3",
+							".*": "\\g<0>"
+						}
+					}
+				},
+				{
+					"enable": "%%ENABLE_STDOUT",
+					"id": "Stdout",
+					"params": {
+						"channel_mask": "%%[1 for x in range(2)]",
+						"channel_transform": "%%[[1,0] for x in range(2)]"
+					}
+				},
+				{
+					"enable": "True",
+					"id": "sMAP/Home",
+					"params": {
+					}
+				}
+			]
+		}
+	]
+}
+		
