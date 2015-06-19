@@ -49,9 +49,12 @@ class _Actuator(actuate.SmapActuator):
 	except:
 		print "Not a color channel"
 	self.hue = HueInterface(ip_address,username)
+	print "Hue Interface Loaded"
+	print self.hue
 	self.file = os.path.expanduser(opts['filename'])
 
     def get_state(self, request):
+	print "Request: "%request
         try:
             with open(self.file, 'r') as fp:
                 return self.parse_state(fp.read())
@@ -60,7 +63,17 @@ class _Actuator(actuate.SmapActuator):
 
     # @authenticated(['__has_ssl__'])
     def set_state(self, request, state):
-        with open(self.file, 'w') as fp:
+	print "Set State!"
+	if state == 1:
+		print "state is 1"
+	#	hue.lights_on = True
+	#	hue.turnAllLightsOn()
+	elif state == 0:
+		print "state is 1"
+	#	hue.lights_on = False
+	#	hue.turnAllLightsOff()
+        
+	with open(self.file, 'w') as fp:
             fp.write(str(state))
         return state
 
@@ -116,6 +129,7 @@ class HueDriver(driver.SmapDriver):
     """Driver which creates a single point backed by a file.  You
     could use this, for instance, to expose flags in /proc"""
     def setup(self, opts):
+	print
         print "Running setup() for HueDriver"
 	print "opts:"
 	print opts

@@ -24,12 +24,19 @@ class HueInterface():
 		}
 		self.bridge.light.update(resource)
 
+	def turnAllLightsOn(self):
+		self.setLight(1,True,0,0,0)
+		self.setLight(2,True,0,0,0)
+		self.setLight(3,True,0,0,0)
+		self.setLight(4,True,0,0,0)
+		self.setLight(5,True,0,0,0)
+
 	def turnAllLightsOff(self):
-		setLight(1,False,0,0,0)
-		setLight(2,False,0,0,0)
-		setLight(3,False,0,0,0)
-		setLight(4,False,0,0,0)
-		setLight(5,False,0,0,0)
+		self.setLight(1,False,0,0,0)
+		self.setLight(2,False,0,0,0)
+		self.setLight(3,False,0,0,0)
+		self.setLight(4,False,0,0,0)
+		self.setLight(5,False,0,0,0)
 
 	def getDayMinutes(self):
 		return time.localtime(time.time()).tm_hour*60 + time.localtime(time.time()).tm_min
