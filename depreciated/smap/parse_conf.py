@@ -1,3 +1,11 @@
+"""
+Written by Jeremy Haugen
+
+This function adds metadata for a uuid into sMAP.
+
+It is depreciated because sMAP.py now automatically
+adds the metadata when a device is first loaded.
+"""
 import json
 import uuid
 import requests

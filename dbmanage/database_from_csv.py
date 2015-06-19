@@ -1,3 +1,6 @@
+"""
+Written by Anthony Nguyen 2015
+"""
 import sqlite3
 import smap_analytics as smap_analytics
 print "imported update_tables"

@@ -1,3 +1,8 @@
+"""
+Written by Anthony Nguyen 2015
+
+This set of functions helps to analyze the data in the database.
+"""
 import sys
 from smap.archiver.client import SmapClient
 from smap.contrib import dtutil
