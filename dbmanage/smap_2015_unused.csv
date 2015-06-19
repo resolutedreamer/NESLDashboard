@@ -1,0 +1,3 @@
+af13cdcf-f236-c90a-09ac-0b6d98925c6d,/ManisHouse/TED5000_MainPanel/Voltage[house],TRUE,55,74,Outside Home,100BD4 (Main),power,Volts (V)
+40dfbdc8-07aa-abcb-8fb7-20d01c12eb47,/ManisHouse/TED5000_MainPanel/RealPower[house],TRUE,55,73,Outside Home,100BD4 (Main),power,Watts (W)
+e3c4a2c8-3e6f-f82b-8e1d-a3a8e49d8a23,/ManisHouse/TED5000_MainPanel/ApparentPower[house],TRUE,55,72,Outside Home,100BD4 (Main),power,Volt-Ampere (VA)
