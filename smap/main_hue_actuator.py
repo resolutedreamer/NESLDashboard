@@ -1,9 +1,7 @@
 import requests
 import json
 import time
-
-import HueClasses
-#from HueClasses import HueInterface
+from HueClasses import HueInterface
 
 def get_actuator_data(url):
 	print url
@@ -29,15 +27,6 @@ username = 'beautifulhuetest'
 hue = HueInterface(ip_address,username)
 print "loaded hue"
 
-hue_light_selected_map = 
-{
-	"Living Room": 1
-	"Master Bedroom": 2
-	"Kitchen": 3
-	"Guest Bedroom": 4
-	"Garage": 5
-}
-
 while (1):
 	hue_light_selected = get_actuator_data("http://rd-almightyleft.ddns.net:8083/data/hue_light_selected/point0")
 	on_off_state = get_actuator_data("http://rd-almightyleft.ddns.net:8083/data/hue_basic/point0")
@@ -49,8 +38,8 @@ while (1):
 	
 	print "Light selected is: %s"%hue_light_selected
 	print "Light state is: %s"%on_off_state
-	print "Light color is: %s"%hue_color
+	print "Light color is: {0}".format(hue_color)
 	
-	setLightColors(self, hue_light_selected_map[hue_light_selected], on_off_state, hue_color)	
+	hue.setLightColors(hue_light_selected, on_off_state, hue_color)	
 	
 	time.sleep(1)

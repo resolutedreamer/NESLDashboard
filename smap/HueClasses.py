@@ -44,4 +44,8 @@ class HueInterface():
 		sat = int(hue_color[1])
 		bri = int(hue_color[2])
 		print "settings lights now"
-		self.setLight(which_light,on_off_state,hue,sat,bri)
+		try:
+			self.setLight(which_light,on_off_state,hue,sat,bri)
+			print "lights should have been set"
+		except:
+			print "could not reach lights"
