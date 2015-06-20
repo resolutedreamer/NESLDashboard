@@ -45,18 +45,20 @@ class HueInterface():
 		return self.color
 
 	def setColors(self, new_color):
-		print "HueInterface.setColors(): %s"%(new_color)
+		print "HueInterface.setColors()"
+		print new_color
 		self.color = new_color
-		print "self.color: %s"%(self.color)
-		new_color_r = new_color[0]
-		new_color_g = new_color[1]
-		new_color_b = new_color[2]
+		print "self.color"
+		print self.color
+		hue = int(new_color[0])
+		sat = int(new_color[1])
+		bri = int(new_color[2])
 		print "settings lights now"
-		self.setLight(1,self.lights_on,new_color_r,new_color_g,new_color_b)
-		self.setLight(3,self.lights_on,new_color_r,new_color_g,new_color_b)
-		self.setLight(2,self.lights_on,new_color_r,new_color_g,new_color_b)
-		self.setLight(4,self.lights_on,new_color_r,new_color_g,new_color_b)
-		self.setLight(5,self.lights_on,new_color_r,new_color_g,new_color_b)
+		self.setLight(1,True,hue,sat,bri)
+		self.setLight(3,True,hue,sat,bri)
+		self.setLight(2,True,hue,sat,bri)
+		self.setLight(4,True,hue,sat,bri)
+		self.setLight(5,True,hue,sat,bri)
 
 # ==================== MAIN LOOP ==================
 ### print "HueInterface appears to have Suceeded"
