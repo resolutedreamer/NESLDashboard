@@ -9,8 +9,6 @@ class HueInterface():
 	def __init__(self, ip_address, username):
 		# Connect to a Philips Hue bridge.
 		self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
-		self.lights_on = True
-		self.color = (0,0,0)
 			
 	# subroutines
 	def setLight(self, id, status, hue, sat, bri):
@@ -41,26 +39,9 @@ class HueInterface():
 	def getDayMinutes(self):
 		return time.localtime(time.time()).tm_hour*60 + time.localtime(time.time()).tm_min
 
-	def getColors(self):
-		return self.color
-
-	def setColors(self, new_color):
-		print "HueInterface.setColors()"
-		print new_color
-		self.color = new_color
-		print "self.color"
-		print self.color
-		hue = int(new_color[0])
-		sat = int(new_color[1])
-		bri = int(new_color[2])
+	def setLightColors(self, which_light, on_off_state, hue_color):
+		hue = int(hue_color[0])
+		sat = int(hue_color[1])
+		bri = int(hue_color[2])
 		print "settings lights now"
-		self.setLight(1,True,hue,sat,bri)
-		self.setLight(3,True,hue,sat,bri)
-		self.setLight(2,True,hue,sat,bri)
-		self.setLight(4,True,hue,sat,bri)
-		self.setLight(5,True,hue,sat,bri)
-
-# ==================== MAIN LOOP ==================
-### print "HueInterface appears to have Suceeded"
-#new_color = (255,100,255)
-#HueInterface().setColors(new_color)
+		self.setLight(which_light,on_off_state,hue,sat,bri)

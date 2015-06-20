@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body>
+	<ul class="nav nav-tabs">
+	  <li role="presentation" class="active"><a href="#">Manual Light Control</a></li>
+	  <li role="presentation"><a href="#">Profile</a></li>
+	  <li role="presentation"><a href="#">Messages</a></li>
+	</ul>
+
+	<h2 class='text-primary text-center'>Manual Light Control</h2>
+	<br>
+	<img class='img-responsive center-block' src='http://www.macmaniacs.at/wp-content/uploads/2013/01/hue-logo.jpeg' >
+	<br>
+
+	
+	
+	
+	<form action="/submit-light-state">
+		<div class='row'>
+			<div class='col-xs-6'>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+					Light is On!
+				  </label>
+				</div>		
+			</div>
+			<div class='col-xs-6'>		  
+				<div class="radio">
+				  <label>
+					<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+					Light is Off!
+				  </label>
+				</div>
+			</div>
+		</div>
+	
+		<div class='row'>			
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_hue">hue_color_hue</label>
+			<input type="text" class="form-control" id="hue_color_hue" placeholder="0 - 65000">
+		  </div>
+		</div>
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_sat">hue_color_sat</label>
+			<input type="text" class="form-control" id="hue_color_sat" placeholder="0 - 255">
+		  </div>
+		</div>
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_bri">hue_color_bri</label>
+			<input type="text" class="form-control" id="hue_color_bri" placeholder="0 - 255">
+		  </div>
+		</div>
+		</div>
+
+		<div class="container">	
+			<div class="btn-group" role="group" aria-label="...">
+			  <button type="button" class="btn btn-default">Living Room</button>
+			  <button type="button" class="btn btn-default">Master Bedroom</button>
+			  <button type="button" class="btn btn-default">Kitchen</button>
+			  <button type="button" class="btn btn-default">Guest Bedroom</button>
+			  <button type="button" class="btn btn-default">Garage</button>
+			</div>
+		</div>
+
+		<button type='submit' class='btn btn-primary'><i class='fa fa-paper-plane'></i> Submit</button>
+	</form>
+
+
+
+
+</body>
+</html>
