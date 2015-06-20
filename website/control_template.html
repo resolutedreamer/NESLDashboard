@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-</head>
-
-<body>
+{% extends 'data_visualization/base_template.html' %}
+{% block control_tab_class %}active{% endblock %}
+{% block body_block %}
 
 <ul class="nav nav-tabs">
   <li role="presentation" class="active"><a href="#">Manual Light Control</a></li>
@@ -72,5 +68,7 @@
 </form>
 
 
-</body>
-</html>
+
+
+<!--<iframe src="http://rd-almightyleft.ddns.net:8083/docs/" width="800" height="800"></iframe>-->
+{% endblock %}
