@@ -23,9 +23,9 @@ def retrieve_state(state_json):
 
 #######################
 #Main starts here
-print 'Running hue_actuator_main'
-print 'Number of arguments:', len(sys.argv), 'arguments.'
-print 'Argument List:', str(sys.argv)
+#print 'Running hue_actuator_main'
+#print 'Number of arguments:', len(sys.argv), 'arguments.'
+#print 'Argument List:', str(sys.argv)
 
 if len(sys.argv) == 2:
 	open_this_file = sys.argv[1]

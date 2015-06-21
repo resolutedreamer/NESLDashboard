@@ -2,8 +2,15 @@
 Written by Anthony Nguyen 2015
 """
 import sqlite3
+import sys
 #import smap_analytics as smap_analytics
-print "imported update_tables"
+
+open_this_file = None
+
+if len(sys.argv) == 2:
+    open_this_file = sys.argv[1]
+else:
+    open_this_file = "config/smap_2015.csv"
 
 with sqlite3.connect('dashboard.db') as conn:
     c = conn.cursor()
@@ -23,7 +30,7 @@ with sqlite3.connect('dashboard.db') as conn:
     c.execute(command)
     
     #Parse the file of UUIDs and add each as a row
-    with open("smap_2015.csv") as f:
+    with open(open_this_file) as f:
         for line in f.readlines():
             row = line.split(",")
             #print row

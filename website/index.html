@@ -6,16 +6,102 @@
 
 <body>
 
+
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a href="#">Manual Light Control</a></li>
+  <li role="presentation" class="active"><a href="#">Light Control</a></li>
   <li role="presentation"><a href="#">Automatic Light Timer Control</a></li>
   <li role="presentation"><a href="#">Automatic Message Notifier Control</a></li>
 </ul>
 
 <h2 class='text-primary text-center'>Manual Light Control</h2>
-<br>
-<img class='img-responsive center-block' src='http://www.macmaniacs.at/wp-content/uploads/2013/01/hue-logo.jpeg' >
-<br>
+<div class='row'>
+	<div class='col-lg-6'>
+	<img class='img-responsive left-block' src='http://www.macmaniacs.at/wp-content/uploads/2013/01/hue-logo.jpeg' style='max-width: 400px;'>
+	</div>
+
+
+	<div class="col-lg-4">
+		
+		<div class="btn-group" role="group" aria-label="...">
+			<div class="span2">
+			<div class='dropdown message-dropdown'>
+				<button id='dropdown_livingRoom' type="button" class="btn btn-default button-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expended="true">Living Room
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-lableledby="dropdownMenu1">
+					<li><a href="#"> Light On</a></li>
+					<li><a href="#"> Light Off</a></li>
+				</ul>
+			</div> 
+			<div class='dropdown message-dropdown'>
+				<button id='dropdown_masterRoom' type="button" class="btn btn-default button-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expended="true">Master Bedroom
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-lableledby="dropdownMenu1">
+					<li><a href="#"> Light On</a></li>
+					<li><a href="#"> Light Off</a></li>
+				</ul>
+			</div> 
+			<div class='dropdown message-dropdown'>
+				<button id='dropdown_Kitchen' type="button" class="btn btn-default button-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expended="true">Kitchen
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-lableledby="dropdownMenu1">
+					<li><a href="#"> Light On</a></li>
+					<li><a href="#"> Light Off</a></li>
+				</ul>
+			</div>
+			<div class='dropdown message-dropdown'>
+				<button id='dropdown_GuestRoom' type="button" class="btn btn-default button-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expended="true">Guest
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu message-dropdown'" aria-lableledby="dropdownMenu1">
+					<li><a href="#"> Light On</a></li>
+					<li><a href="#"> Light Off</a></li>
+				</ul>
+			</div>
+			<div class='dropdown message-dropdown'>
+				<button id='dropdown_Garage' type="button" class="btn btn-default button-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expended="true">Garage
+				<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" aria-lableledby="dropdownMenu1">
+					<li><a href="#"> Light On</a></li>
+					<li><a href="#"> Light Off</a></li>
+				</ul>
+			</div>
+			</div>
+		</div>
+		
+		<form action="/submit-light-state">
+		<div class='row'>			
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_hue">hue_color_hue</label>
+			<input type="text" class="form-control" id="hue_color_hue" placeholder="0 - 65000">
+		  </div>
+		</div>
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_sat">hue_color_sat</label>
+			<input type="text" class="form-control" id="hue_color_sat" placeholder="0 - 255">
+		  </div>
+		</div>
+		<div class='col-xs-4'>
+		  <div class="form-group">
+			<label for="hue_color_bri">hue_color_bri</label>
+			<input type="text" class="form-control" id="hue_color_bri" placeholder="0 - 255">
+		  </div>
+		</div>
+		</div>
+		<button type='submit' class='btn btn-primary'><i class='fa fa-paper-plane'></i> Submit</button>
+	</form>
+
+		
+		
+	</div>
+
+	
+</div>
 
 
 <div class="container">	
