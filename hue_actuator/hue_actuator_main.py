@@ -10,7 +10,9 @@ def get_actuator_data(url):
 	print url
 	try:
 		r = requests.get(url)
+		print r
 		state_json = json.loads( r.content )
+		print state_json
 	except:
 		print "error"
 		state_json = None
@@ -38,28 +40,31 @@ ip_address = '10.10.10.10'
 username = 'beautifulhuetest'
 url_root = "http://www.test.com/"
 
+
 with open(open_this_file) as conf_file:
 	conf = json.load(conf_file)
 	
 	ip_address = str( conf["ip_address"] )
 	username = str( conf["username"] )
 	url_root = str( conf["url_root"] )
+	if len(url_root) != 0 and url_root[-1] == '/':
+		url_root = url_root[:-1]
 	hue = None	
 
 	try:
 		hue = HueInterface(ip_address,username)
-		print "loaded hue"
+		print "Loaded Hue"
 	except:
-		print "could not load hue"
+		print "Error: Could not load Hue"
 		exit(1)
 	
 
 while (1):
-	hue_light_selected = get_actuator_data(url_root + "data/hue_light_selected/point0")
-	on_off_state = get_actuator_data(url_root + "data/hue_on_off/point0")
-	hue_state = get_actuator_data(url_root + "data/color_hue/point0")
-	sat_state = get_actuator_data(url_root + "data/color_sat/point0")
-	bri_state = get_actuator_data(url_root + "data/color_bri/point0")
+	hue_light_selected = get_actuator_data(url_root + "/data/hue_light_selected/point0")
+	on_off_state = get_actuator_data(url_root + "/data/hue_on_off/point0")
+	hue_state = get_actuator_data(url_root + "/data/color_hue/point0")
+	sat_state = get_actuator_data(url_root + "/data/color_sat/point0")
+	bri_state = get_actuator_data(url_root + "/data/color_bri/point0")
 
 	hue_color = (hue_state, sat_state, bri_state)
 	

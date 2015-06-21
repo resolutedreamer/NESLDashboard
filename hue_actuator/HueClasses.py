@@ -1,10 +1,4 @@
-#!/usr/bin/python
 #print "Importing HueInterface Begins"
-
-import sys
-import os.path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 from beautifulhue.api import Bridge
 import time
 from random import *
@@ -14,18 +8,18 @@ import subprocess
 class HueInterface():
 	def __init__(self, ip_address, username):
 		# Connect to a Philips Hue bridge.
-		try:
-			self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
-			print "bridge connected!"
-			lights = self.bridge.light.get({'which':'all'})
-			for light in lights['resource']:
-		    		print self.bridge.light.get({'which':light['id']})
-		except:
-			print "could not connect to bridge"
-
+		print "Initializing Hue Bridge with ip: {0} and user: {1}".format(ip_address, username)
+		self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
 		
-			
 	# subroutines
+	def getLights(self):
+		print "Running getLights"
+		lights = self.bridge.light.get({'which':'all'})
+		for light in lights['resource']:
+		    print self.bridge.light.get({'which':light['id']})
+		print "Got All Lights"
+
+
 	def setLight(self, id, status, hue, sat, bri):
 		resource = {
 			'which':id,
@@ -58,11 +52,11 @@ class HueInterface():
 		hue = int(hue_color[0])
 		sat = int(hue_color[1])
 		bri = int(hue_color[2])
-		print "settings lights now"
+		print "Running setLightColors() now!"
 		try:
 			self.setLight(which_light,on_off_state,hue,sat,bri)
-			print "lights should have been set"
+			print "Success: Lights have been set!"
 		except:
-			print "could not reach lights"
+			print "Error: Could not reach lights!"
 
 
