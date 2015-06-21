@@ -1,4 +1,10 @@
+#!/usr/bin/python
 #print "Importing HueInterface Begins"
+
+import sys
+import os.path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from beautifulhue.api import Bridge
 import time
 from random import *
@@ -8,10 +14,14 @@ import subprocess
 class HueInterface():
 	def __init__(self, ip_address, username):
 		# Connect to a Philips Hue bridge.
-		self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
-		#lights = bridge.light.get({'which':'all'})
-		#for light in lights['resource']:
-		#    print bridge.light.get({'which':light['id']})
+		try:
+			self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
+			print "bridge connected!"
+			lights = self.bridge.light.get({'which':'all'})
+			for light in lights['resource']:
+		    		print self.bridge.light.get({'which':light['id']})
+		except:
+			print "could not connect to bridge"
 
 		
 			

@@ -66,7 +66,9 @@ while (1):
 	print "Light selected is: %s"%hue_light_selected
 	print "Light state is: %s"%on_off_state
 	print "Light color is: {0}".format(hue_color)
-	
-	hue.setLightColors(hue_light_selected, on_off_state, hue_color)	
-	
+
+	try:	
+		hue.setLightColors(hue_light_selected, on_off_state, hue_color)	
+	except:
+		"Could not set light colors"
 	time.sleep(1)
