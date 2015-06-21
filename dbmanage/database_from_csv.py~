@@ -2,7 +2,7 @@
 Written by Anthony Nguyen 2015
 """
 import sqlite3
-#import smap_analytics as smap_analytics
+import smap_analytics as smap_analytics
 print "imported update_tables"
 
 with sqlite3.connect('dashboard.db') as conn:
@@ -13,7 +13,7 @@ with sqlite3.connect('dashboard.db') as conn:
     print command
     c.execute(command)
 
-    # Create a new house_layout table
+    # Create table
     command = '''CREATE TABLE house_layout
                 (path VARCHAR(100) PRIMARY KEY, uuid VARCHAR(36) NOT NULL UNIQUE,
                 heat_map_enable BOOLEAN, x_coord INT NOT NULL, y_coord INT NOT NULL, 
