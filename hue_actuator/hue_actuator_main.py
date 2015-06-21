@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import requests
 import json
 import sys
@@ -43,10 +45,11 @@ with open(open_this_file) as conf_file:
 	username = conf["username"]
 	url_root = conf["url_root"]
 	
-	#print ip_address
-	#print username
-	#print url_root
-	
+	print ip_address
+	print username
+	print url_root
+
+	hue = None	
 	try:
 		hue = HueInterface(ip_address,username)
 		print "loaded hue"
