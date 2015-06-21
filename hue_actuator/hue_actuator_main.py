@@ -41,15 +41,11 @@ url_root = "http://www.test.com/"
 with open(open_this_file) as conf_file:
 	conf = json.load(conf_file)
 	
-	ip_address = conf["ip_address"]
-	username = conf["username"]
-	url_root = conf["url_root"]
-	
-	print ip_address
-	print username
-	print url_root
-
+	ip_address = str( conf["ip_address"] )
+	username = str( conf["username"] )
+	url_root = str( conf["url_root"] )
 	hue = None	
+
 	try:
 		hue = HueInterface(ip_address,username)
 		print "loaded hue"
@@ -60,10 +56,10 @@ with open(open_this_file) as conf_file:
 
 while (1):
 	hue_light_selected = get_actuator_data(url_root + "data/hue_light_selected/point0")
-	on_off_state = get_actuator_data(url_root + "data/hue_basic/point0")
-	hue_state = get_actuator_data(url_root + "data/hue_color_hue/point0")
-	sat_state = get_actuator_data(url_root + "data/hue_color_sat/point0")
-	bri_state = get_actuator_data(url_root + "data/hue_color_bri/point0")
+	on_off_state = get_actuator_data(url_root + "data/hue_on_off/point0")
+	hue_state = get_actuator_data(url_root + "data/color_hue/point0")
+	sat_state = get_actuator_data(url_root + "data/color_sat/point0")
+	bri_state = get_actuator_data(url_root + "data/color_bri/point0")
 
 	hue_color = (hue_state, sat_state, bri_state)
 	

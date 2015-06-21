@@ -8,12 +8,21 @@ class HueInterface():
 		# Connect to a Philips Hue bridge.
 		
 		# These should be provided in the config file
-		ip_address = '192.168.1.221'
+		ip_address = '192.168.29.245'
 		username = 'beautifulhuetest'
 		#ip_address = params["device-ip"]
 		#username = params["username"]
 		
-		self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
+		device={'ip':ip_address}
+		user={'name':username}
+
+		print device
+		print user
+
+		self.bridge = Bridge(device, user)
+
+		#self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
+		print "bridge connected"
 		self.lights_on = True
 		self.yellow_s = 15000
 		self.blue_s = 40000

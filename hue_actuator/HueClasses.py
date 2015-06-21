@@ -9,9 +9,9 @@ class HueInterface():
 	def __init__(self, ip_address, username):
 		# Connect to a Philips Hue bridge.
 		self.bridge = Bridge(device={'ip':ip_address}, user={'name':username})
-		lights = bridge.light.get({'which':'all'})
-		for light in lights['resource']:
-		    print bridge.light.get({'which':light['id']})
+		#lights = bridge.light.get({'which':'all'})
+		#for light in lights['resource']:
+		#    print bridge.light.get({'which':light['id']})
 
 		
 			
