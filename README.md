@@ -1,7 +1,7 @@
 NESL Home Dashboard
 ======
-## Visualize Power and Water 
-This contains all the files for the dashboard system.
+## Visualize Power and Water
+This was a project to display power and water data collected from a home on a dashboard as well as allow actuation of the installed Phillips Hue lights. This code is meant to go on a server in the home.
 
 #### Screenshot
 ![Screenshot](/assets/screenshots/ss1.png)
@@ -18,7 +18,6 @@ Run /scripts/install.sh
 * [Linyi Xia]()
 
 ### Third party libraries
-Third party libraries used go here:
 *  [smap](https://softwaredefinedbuildings.github.io/smap/)
 
 ## License 
